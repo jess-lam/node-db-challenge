@@ -14,6 +14,8 @@ router.get('/', (req, res) => {
   });
 });
 
+//works on Postman
+
 router.get('/resources', (req, res) => {
     Projects.findResourceTable()
     .then(resource => {
@@ -93,21 +95,9 @@ router.post('/', (req, res) => {
   });
 });
 
-// router.post('/:id/tasks', (req, res) => {
-//     const { id } = req.params;
-  
-//     Projects.addTasks(id)
-//     .then(tasks => {
-//         if (tasks.length) {
-//           res.json(tasks);
-//         } else {
-//           res.status(404).json({ message: 'Could not find tasks for given project.' })
-//         }
-//       })
-//       .catch(err => {
-//         res.status(500).json({ message: 'Failed to get tasks' });
-//       });;
-//   });
+//works on Postman
+
+
 
   router.post('/:id/tasks', async (req, res) => {
     const taskInfo = {...req.body, project_id: req.params.id};
@@ -120,6 +110,8 @@ router.post('/', (req, res) => {
         res.status(500).json({err})
     }
 })
+
+//works on Postman
 
 router.post('/resources', async (req, res) => {
     const resourceInfo = {...req.body};
@@ -135,62 +127,5 @@ router.post('/resources', async (req, res) => {
 
 //works on Postman
 
-// router.post('/:id/steps', (req, res) => {
-//   const stepData = req.body;
-//   const { id } = req.params; 
-
-//   Projects.findById(id)
-//   .then(scheme => {
-//     if (scheme) {
-//       Schemes.addStep(stepData, id)
-//       .then(step => {
-//         res.status(201).json(step);
-//       })
-//     } else {
-//       res.status(404).json({ message: 'Could not find scheme with given id.' })
-//     }
-//   })
-//   .catch (err => {
-//     res.status(500).json({ message: 'Failed to create new step' });
-//   });
-// });
-
-// //unsure aoout this. Doesn't work in Postman
-
-// router.put('/:id', (req, res) => {
-//   const { id } = req.params;
-//   const changes = req.body;
-
-//   Projects.findById(id)
-//   .then(scheme => {
-//     if (scheme) {
-//       Projects.update(changes, id)
-//       .then(updatedScheme => {
-//         res.json(updatedScheme);
-//       });
-//     } else {
-//       res.status(404).json({ message: 'Could not find scheme with given id' });
-//     }
-//   })
-//   .catch (err => {
-//     res.status(500).json({ message: 'Failed to update scheme' });
-//   });
-// });
-
-// router.delete('/:id', (req, res) => {
-//   const { id } = req.params;
-
-//   Projects.remove(id)
-//   .then(deleted => {
-//     if (deleted) {
-//       res.json({ removed: deleted });
-//     } else {
-//       res.status(404).json({ message: 'Could not find scheme with given id' });
-//     }
-//   })
-//   .catch(err => {
-//     res.status(500).json({ message: 'Failed to delete scheme' });
-//   });
-// });
 
 module.exports = router;

@@ -15,11 +15,11 @@ function find() {
     return db('project');
 }
 
+
 function findResourceTable() {
     return db('resource');
 }
 
-//works on Postman 
 
 function findById(id) {
     return db('project')
@@ -27,11 +27,6 @@ function findById(id) {
     .first();
 }
 
-//works on Postman for get
-
-// function addStep(id)
-
-//works on Postman
 
 function findTasks(id) {
     return db('task as t')
@@ -40,7 +35,6 @@ function findTasks(id) {
     .where({ project_id: id })
 }
 
-//works on Postman
 
 function findResources(id) {
     return db('project_resource')
@@ -49,34 +43,19 @@ function findResources(id) {
     .where({ project_id: id })
 }
 
+
 function add(projectData) {
     return db('project').insert(projectData);
 }
+
 
 function addTasks(task) {
     return db('task')
       .insert(task)
   }
 
+
   function addResources(resource) {
     return db('resource')
       .insert(resource)
   }
-
-// function update(changes, id) {
-//     return db("schemes")
-//     .where({id})
-//     .update(changes)
-//     .then((count) => {
-//         return findById(id);
-//     });
-// }
-
-//works on Postman
-
-// function remove(id) {
-//     return db('schemes')
-//     .where({id})
-//     .del()
-// }
-//works on Postman
