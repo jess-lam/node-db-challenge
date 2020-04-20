@@ -3,59 +3,59 @@ const db = require('../data/db-config');
 module.exports = {
     find,
     findById,
-    add,
-    findSteps,
-    update,
-    remove
+    findTasks,
+    // findResources,
+    add
+    // addTasks,
+    // addResources,
 }
 
 function find() {
-    return db('schemes');
+    return db('projects');
 }
 
 //works on Postman 
 
 function findById(id) {
-    return db('schemes')
+    return db('projects')
     .where({id})
     .first();
 }
 
 //works on Postman for get
 
-function add(schemeData) {
-    return db('schemes').insert(schemeData);
+function add(projectData) {
+    return db('projects').insert(projectData);
 }
 
-function addStep(id)
+// function addStep(id)
 
 //works on Postman
 
-function findSteps(id) {
-    return db('steps as s')
-    .join('schemes as k', 'k.id', 's.scheme_id')
-    .select('s.id', 'k.scheme_name', 's.step_number', 's.instructions')
-    .orderBy('s.step_number')
-    .where({ scheme_id: id })
-}
-
-//works on Postman
-
-
-function update(changes, id) {
-    return db("schemes")
-    .where({id})
-    .update(changes)
-    .then((count) => {
-        return findById(id);
-    });
+function findTasks(id) {
+    return db('tasks as t')
+    .join('projects as p', 'p.id', 't.project_id')
+    .select('t.*', 'p.name', 'p.description')
+    .where({ project_id: id })
 }
 
 //works on Postman
 
-function remove(id) {
-    return db('schemes')
-    .where({id})
-    .del()
-}
+
+// function update(changes, id) {
+//     return db("schemes")
+//     .where({id})
+//     .update(changes)
+//     .then((count) => {
+//         return findById(id);
+//     });
+// }
+
+//works on Postman
+
+// function remove(id) {
+//     return db('schemes')
+//     .where({id})
+//     .del()
+// }
 //works on Postman
