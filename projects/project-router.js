@@ -14,6 +14,18 @@ router.get('/', (req, res) => {
   });
 });
 
+router.get('/resources', (req, res) => {
+    Projects.findResourceTable()
+    .then(resource => {
+      res.json(resource);
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'Failed to get projects.' });
+    });
+  });
+
+//works on Postman
+
 router.get('/:id', (req, res) => {
   const { id } = req.params;
 
@@ -29,6 +41,8 @@ router.get('/:id', (req, res) => {
     res.status(500).json({ message: 'Failed to get project.' });
   });
 });
+
+//works on Postman
 
 router.get('/:id/tasks', (req, res) => {
   const { id } = req.params;
@@ -46,6 +60,27 @@ router.get('/:id/tasks', (req, res) => {
   });
 });
 
+//works on Postman
+
+router.get('/:id/resources', (req, res) => {
+    const { id } = req.params;
+  
+    Projects.findResources(id)
+    .then(resources => {
+      if (resources.length) {
+        res.json(resources);
+      } else {
+        res.status(404).json({ message: 'Could not find resources for given project.' })
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: 'Failed to get resources.' });
+    });
+  });
+
+  //works on Postman
+
+
 router.post('/', (req, res) => {
   const projectData = req.body;
 
@@ -57,6 +92,48 @@ router.post('/', (req, res) => {
     res.status(500).json({ message: 'Failed to create new project.' });
   });
 });
+
+// router.post('/:id/tasks', (req, res) => {
+//     const { id } = req.params;
+  
+//     Projects.addTasks(id)
+//     .then(tasks => {
+//         if (tasks.length) {
+//           res.json(tasks);
+//         } else {
+//           res.status(404).json({ message: 'Could not find tasks for given project.' })
+//         }
+//       })
+//       .catch(err => {
+//         res.status(500).json({ message: 'Failed to get tasks' });
+//       });;
+//   });
+
+  router.post('/:id/tasks', async (req, res) => {
+    const taskInfo = {...req.body, project_id: req.params.id};
+
+    try {
+        const task = await Projects.addTasks(taskInfo);
+        res.status(201).json(task);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({err})
+    }
+})
+
+router.post('/resources', async (req, res) => {
+    const resourceInfo = {...req.body};
+
+    try {
+        const resource = await Projects.addResources(resourceInfo);
+        res.status(201).json(resource);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({err})
+    }
+})
+
+//works on Postman
 
 // router.post('/:id/steps', (req, res) => {
 //   const stepData = req.body;
