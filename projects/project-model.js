@@ -17,7 +17,7 @@ function find() {
 
 
 function findResourceTable() {
-    return db('resource');
+    return db('resource', );
 }
 
 
@@ -38,8 +38,8 @@ function findTasks(id) {
 
 function findResources(id) {
     return db('project_resource')
-    .join('resource as r', 'r.id', 'project_resource.project_id')
-    .select('r.*')
+    .join('resource as r', 'r.id', 'project_resource.resource_id')
+    .select('r.*', 'project_resource.project_id')
     .where({ project_id: id })
 }
 
@@ -55,7 +55,18 @@ function addTasks(task) {
   }
 
 
-  function addResources(resource) {
-    return db('resource')
-      .insert(resource)
+  async function addResources(resource, project_id) {
+    // return db('resource')
+    //   .insert(resource)
+    let resourceId = await db('resource')
+    .join('project_resource', 'project_resource.resource_id', 'resource.id')
+    // .where({ project_id: resource.project_id })
+    .insert(resource) 
+    resourceId = resourceId[0];
+
+    console.log(data);
+    const response = await db('project_resource')
+    .insert({project_id, resource_id: resourceId })
+
+    return(`Successfully added!`)
   }

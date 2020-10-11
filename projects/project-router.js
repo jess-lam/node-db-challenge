@@ -113,11 +113,11 @@ router.post('/', (req, res) => {
 
 //works on Postman
 
-router.post('/resources', async (req, res) => {
+router.post('/:id/resources', async (req, res) => {
     const resourceInfo = {...req.body};
 
     try {
-        const resource = await Projects.addResources(resourceInfo);
+        const resource = await Projects.addResources(resourceInfo, req.params.id);
         res.status(201).json(resource);
     } catch (err) {
         console.log(err);
